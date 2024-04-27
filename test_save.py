@@ -92,4 +92,16 @@ def read_nfc_card():
             print('Error! Failed to write to the card.')
             sys.exit(-1)
         print('Wrote card successfully! You may now remove the card from the PN532.')
+        
+        
+    
+
+# Main function
+if __name__ == "__main__":
+    try:
+        
+        read_nfc_card()
+    except KeyboardInterrupt:
+        print("Exiting...")
+
                     
