@@ -42,8 +42,11 @@ def read_nfc_card():
         print('WARNING: DO NOT REMOVE CARD FROM PN532 UNTIL FINISHED WRITING!')
         print('==============================================================')
         print('')
+        
+        # Data to write to the NFC tag (16 bytes)
+        data_to_write = b"Hello, NFC!1234"[:16].ljust(16, b'\0')
 
-        data_to_write = b"Hello, NFC!"
+        # data_to_write = b"Hello, NFC!"
         
         success = pn532.mifare_classic_write_block(4, data_to_write)  # Writing to block 4, change as needed
         
