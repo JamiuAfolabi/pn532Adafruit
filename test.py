@@ -1,6 +1,11 @@
 import board
 import busio
 from adafruit_pn532.i2c import PN532_I2C
+import time
+
+HEADER = b'BG'
+
+DELAY = 0.5
 
 # Create the I2C interface
 i2c = busio.I2C(board.SCL, board.SDA)
@@ -36,6 +41,17 @@ def read_nfc_card():
             print("Data read successfully:", data)
         else:
             print("Failed to read data from the card")
+            
+            
+        if data[0:2] !=  HEADER:
+            print('Card is not written with proper block data!')
+
+    # Parse out the block type and subtype
+        print('User Id: {0}'.format(int(data[2:8].decode("utf-8"), 16)))
+        time.sleep(DELAY)
+            
+        
+        
     
   
         
