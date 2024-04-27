@@ -26,6 +26,21 @@ def read_nfc_card():
     uid = pn532.read_passive_target(timeout=0.5)
     print("Card UID:", [hex(i) for i in uid])
     
+    if uid is not None:
+        print("Found card with UID:", [hex(i) for i in uid])
+        
+        # Attempt to read data from the card
+        data = pn532.mifare_classic_read_block(4)  # Reading block 4, change as needed
+        
+        if data is not None:
+            print("Data read successfully:", data)
+        else:
+            print("Failed to read data from the card")
+    
+  
+        
+       
+    
 
 
 
