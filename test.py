@@ -22,7 +22,8 @@ def read_nfc_card():
     print("Card detected")
 
     # Read the UID of the card
-    uid = pn532.uid
+    # uid = pn532.uid
+    uid = pn532.read_passive_target(timeout=0.5)
     print("Card UID:", [hex(i) for i in uid])
 
 # Main function
