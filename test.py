@@ -25,6 +25,9 @@ def read_nfc_card():
     # uid = pn532.uid
     uid = pn532.read_passive_target(timeout=0.5)
     print("Card UID:", [hex(i) for i in uid])
+    
+
+
 
 # Main function
 if __name__ == "__main__":
