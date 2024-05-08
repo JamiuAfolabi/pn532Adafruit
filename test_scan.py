@@ -44,7 +44,7 @@ def read_nfc_card():
             print("Authentication failed.")
         
         # Attempt to read data from the card
-        data = pn532.mifare_classic_read_block(4)  # Reading block 4, change as needed
+        data = pn532.mifare_classic_read_block(5)  # Reading block 4, change as needed
         
         if data is not None:
             print("Data read successfully:", data)
@@ -52,8 +52,7 @@ def read_nfc_card():
             print("Failed to read data from the card")
             
             
-        if data[0:2] !=  HEADER:
-            print('Card is not written with proper block data!')
+     
 
     # Parse out the block type and subtype
         print('User Id: {0}'.format(int(data[2:8].decode("utf-8"), 16)))
