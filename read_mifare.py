@@ -86,6 +86,7 @@ def loop():
             #  Start with block 4 (the first block of sector 1) since sector 0
             #  contains the manufacturer data and it's probably better just
             #  to leave it alone unless you know what you're doing
+            # pn532.mifare_classic_authenticate_block(uid, block_number, pn532.KEY_A, [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF])
             # success = nfc.mifareclassic_AuthenticateBlock(uid, 4, 0, keya)
             success = True
             if (success):
@@ -126,8 +127,15 @@ def loop():
 
     return False
 
+def writeDatablock(block_number = 4):
+    try:
+        nfc.mifareclassic_WriteDataBlock(4, b'jamiuafolabi')
+    except Exception as err:
+        print(err)
+
 if __name__ == '__main__':
     setup()
+    writeDatablock()
     found = loop()
     while not found:
         found = loop()
