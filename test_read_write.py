@@ -12,6 +12,14 @@ pn532 = PN532_I2C(i2c, debug=False)
 # Configure PN532 to communicate with MiFare cards
 pn532.SAM_configuration()
 
+def convert_to_byte_array(data):
+    if len(data) >= 16:
+        # Truncate if the length is greater than or equal to 16
+        return data[:16].encode()
+    else:
+        # Pad with zeroes if the length is less than 16
+        return data.encode() + b'\x00' * (16 - len(data))
+
 def read_card():
     print("Waiting for NFC card...")
     while True:
@@ -24,7 +32,7 @@ def write_data_to_card(data):
     uid = read_card()
     if uid:
         print("Writing data to card:", data)
-        success = pn532.mifare_classic_write_block(4, data, uid)
+        success = pn532.mifare_classic_write_block(4, data)
         if success:
             print("Data written successfully!")
         else:
@@ -54,7 +62,9 @@ if __name__ == "__main__":
             read_data_from_card()
         elif choice == "2":
             data_to_write = input("Enter data to write to NFC card: ")
-            write_data_to_card(data_to_write.encode())
+            
+            data_sent = convert_to_byte_array(data_to_write)
+            write_data_to_card(data_sent)
         elif choice == "3":
             print("Exiting...")
             break
