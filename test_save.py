@@ -13,6 +13,14 @@ HEADER = b'BG'
 
 DELAY = 0.5
 
+def convert_to_byte_array(data):
+    if len(data) >= 16:
+        # Truncate if the length is greater than or equal to 16
+        return data[:16].encode()
+    else:
+        # Pad with zeroes if the length is less than 16
+        return data.encode() + b'\x00' * (16 - len(data))
+
 # Create the I2C interface
 i2c = busio.I2C(board.SCL, board.SDA)
 
@@ -77,14 +85,15 @@ else:
 # Format is as follows:
 # - 2 bytes 0-1 store a header with ASCII value, for example 'BG'
 # - 6 bytes 2-7 store the user data, for example user ID
-data = bytearray(16)
-# Add header
-data[0:2] = HEADER
-# Convert int to hex string with up to 6 digits
-value = format(block_choice, 'x')
-while (6 > len(value)):
-    value = '0' + value
-data[2:8] = value
+# data = bytearray(16)
+# # Add header
+# data[0:2] = HEADER
+# # Convert int to hex string with up to 6 digits
+# value = format(block_choice, 'x')
+# while (6 > len(value)):
+#     value = '0' + value
+# data[2:8] = value
+data = convert_to_byte_array(str(block_choice))
 # Finally write the card.
 if not pn532.mifare_classic_write_block(4, data):
     print('Error! Failed to write to the card.')
