@@ -5,6 +5,10 @@ import time
 import binascii
 import sys
 
+key = b'\xFF\xFF\xFF\xFF\xFF\xFF'
+MIFARE_CMD_AUTH_B = 0x61
+block_number = 4
+
 HEADER = b'BG'
 
 DELAY = 0.5
@@ -12,15 +16,11 @@ DELAY = 0.5
 # Create the I2C interface
 i2c = busio.I2C(board.SCL, board.SDA)
 
-CARD_KEY = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
-
-
 # Create an instance of the PN532 class
 pn532 = PN532_I2C(i2c, debug=False)
 
 # Configure PN532 to communicate with MiFare cards
 pn532.SAM_configuration()
-
 
 # Step 1, wait for card to be present.
 print('PN532 NFC Module Writer')
@@ -69,8 +69,8 @@ print('Writing card (DO NOT REMOVE CARD FROM PN532)...')
 
 # Write the card!
 # First authenticate block 4.
-if not pn532.mifare_classic_authenticate_block(uid, 4, PN532.MIFARE_CMD_AUTH_B,
-                                               CARD_KEY):
+if not pn532.mifare_classic_authenticate_block(uid, 4, MIFARE_CMD_AUTH_B,
+                                               key):
     print('Error! Failed to authenticate block 4 with the card.')
     sys.exit(-1)
 # Next build the data to write to the card.
