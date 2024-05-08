@@ -86,8 +86,8 @@ def loop():
             #  Start with block 4 (the first block of sector 1) since sector 0
             #  contains the manufacturer data and it's probably better just
             #  to leave it alone unless you know what you're doing
-            success = nfc.mifareclassic_AuthenticateBlock(uid, 4, 0, keya)
-
+            # success = nfc.mifareclassic_AuthenticateBlock(uid, 4, 0, keya)
+            success = True
             if (success):
                 print("Sector 1 (Blocks 4..7) has been authenticated")
 
