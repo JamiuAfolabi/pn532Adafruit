@@ -44,6 +44,8 @@ def read_data_from_card():
     uid = read_card()
     if uid:
         data = pn532.mifare_classic_read_block(4)
+        
+        print(data)
         if data:
             print("Data read from card:", data)
         else:
