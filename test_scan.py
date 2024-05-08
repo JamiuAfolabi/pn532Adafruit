@@ -5,6 +5,10 @@ import time
 
 HEADER = b'BG'
 
+key = b'\xFF\xFF\xFF\xFF\xFF\xFF'
+MIFARE_CMD_AUTH_B = 0x61
+block_number = 4
+
 DELAY = 0.5
 
 # Create the I2C interface
@@ -33,6 +37,11 @@ def read_nfc_card():
     
     if uid is not None:
         print("Found card with UID:", [hex(i) for i in uid])
+        
+        if pn532.mifare_classic_authenticate_block(uid, block_number, MIFARE_CMD_AUTH_B, key):
+            print("Authentication successful!")
+        else:
+            print("Authentication failed.")
         
         # Attempt to read data from the card
         data = pn532.mifare_classic_read_block(4)  # Reading block 4, change as needed
