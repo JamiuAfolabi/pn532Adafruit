@@ -81,9 +81,10 @@ def read_block(sector, block):
         
     # Typical keys are default keys; change as necessary
         key = b'\xFF\xFF\xFF\xFF\xFF\xFF'  # Default factory key for MIFARE Classic
-        authenticated = pn532.mifare_classic_authenticate_block(
-            block_number=sector * 4 + block, key_number=0, key=key
-        )
+        authenticated= pn532.mifare_classic_authenticate_block(uid, block_number, MIFARE_CMD_AUTH_B, key)
+        # authenticated = pn532.mifare_classic_authenticate_block(
+        #     block_number=sector * 4 + block, key_number=0, key=key
+        # )
         if authenticated:
             data = pn532.mifare_classic_read_block(block_number=sector * 4 + block)
             print("Read data from sector", sector, "block", block, ":", data)
